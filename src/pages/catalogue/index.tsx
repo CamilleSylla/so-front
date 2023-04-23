@@ -1,6 +1,7 @@
 import ProductCard from "@/components/ProductCard";
 import Stripe from "stripe";
 import { Prices } from "../../../types";
+import { NextApiResponse } from "next";
 
 export default function Catalogue({
   data,
@@ -39,7 +40,12 @@ function ProductList({
   );
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps({res}: {res: NextApiResponse}) {
+  res.setHeader(
+    'Cache-Control',
+    'public, s-maxage=1800, stale-while-revalidate=3540'
+  );
+  
   const data = await fetch(
     `${process.env.BASE_FETCH_URL}/api/stripe/products/list`
   );
