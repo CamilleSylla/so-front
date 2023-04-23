@@ -1,16 +1,24 @@
-import React, { useState, createContext, ReactNode } from "react";
-import Stripe from "stripe";
+import React, { useState, createContext, ReactNode, useEffect } from "react";
+import { useCookies } from "react-cookie";
 
-type FavContextType = {
-    items: Stripe.Product[];
-    setItems: React.Dispatch<React.SetStateAction<Stripe.Product[]>>;
-}
+type FavContextType = [
+  string[],
+  React.Dispatch<React.SetStateAction<string[]>>
+];
 
 export const FavContext = createContext<FavContextType>({} as FavContextType);
 
 export function FavProvider({ children }: { children: ReactNode }) {
-    const [items, setItems] = useState<Stripe.Product[]>([]);
+  const [items, setItems] = useState<string[]>([]);
+  const [cookies, setCookie, removeCookie] = useCookies(["fav_products"]);
+  const favCookies = cookies.fav_products;
+  useEffect(() => {
+    setItems(favCookies)
+  }, [favCookies])
+  
   return (
-    <FavContext.Provider value={{ items, setItems }}>{children}</FavContext.Provider>
+    <FavContext.Provider value={[items, setItems]}>
+      {children}
+    </FavContext.Provider>
   );
 }
