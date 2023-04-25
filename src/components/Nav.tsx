@@ -6,19 +6,16 @@ import { Popover } from "@headlessui/react";
 
 export default function Nav() {
   return (
-    <nav className=" py-5">
-      <div className=" w-5/6 flex-1 mx-auto flex items-center gap-10 bg-slate-400">
+      <nav className="py-5 px-20 flex-1 mx-auto flex items-center gap-10">
         <Logo />
         <Links />
         <Action />
-      </div>
-    </nav>
+      </nav>
   );
 }
 
 function Action() {
   const [cookies] = useCookies(["favProducts"]);
-  //   console.log(cookies);
 
   return (
     <div className="">
@@ -27,7 +24,7 @@ function Action() {
           <div className="w-10 h-10 flex justify-center items-center rounded-full hover:bg-slate-300 duration-300 bg-slate-100 bottom-2 right-2">
             <Icons.HeartIcon
               className={`${
-                cookies.favProducts ? " fill-red-800 stroke-red-800" : ""
+                cookies.fav_products.length ? " fill-red-800 stroke-red-800" : ""
               } w-3/5 h-3/5 duration-300`}
             />
           </div>
