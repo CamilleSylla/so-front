@@ -5,8 +5,9 @@
 body {
     box-sizing: border-box;
     @apply font-Poppins w-screen;
-    max-width: 100vw;
-    overflow-x: hidden;
+    /* width: 100vw; */
+    /* max-width: 100vw; */
+    /* overflow-x: hidden; */
 }
 
 h1 {
@@ -17,6 +18,6 @@ h2 {
     @apply text-4xl;
 }
 
-button {
+.default-btn {
     @apply self-start py-4 px-9 rounded-md uppercase font-bold text-sm;
 }

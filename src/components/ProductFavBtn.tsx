@@ -10,9 +10,9 @@ export default function ProductFavBtn({
 }: {
   sideSizes: number;
   productId: string;
-  absolute: boolean;
+  absolute?: boolean;
 }) {
-  const { addFav } = useFav();
+  const { addFav, removeFav } = useFav();
   const [favProducts] = useContext(FavContext);
   const isFav = useMemo(() => {
     if (favProducts?.length) {
@@ -24,7 +24,7 @@ export default function ProductFavBtn({
 
   return (
     <button
-      onClick={(e) => addFav(e, productId)}
+      onClick={(e) => (isFav ? removeFav(e, productId) : addFav(e, productId))}
       style={{ width: sideSizes, height: sideSizes }}
       className={`${
         absolute ? "absolute z-10" : ""

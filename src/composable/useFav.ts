@@ -10,5 +10,11 @@ export default function useFav() {
     e.preventDefault();
     setCookie("fav_products", JSON.stringify([...favs, id]), { path: "/" });
   };
-  return { addFav };
+
+  const removeFav = (e: MouseEvent, id: string) => {
+    e.preventDefault();
+    const newFavs = favs.filter((fav) => fav !== id);
+    setCookie("fav_products", JSON.stringify(newFavs), { path: "/" });
+  };
+  return { addFav, removeFav };
 }

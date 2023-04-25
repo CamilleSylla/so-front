@@ -5,6 +5,7 @@ import { Prices } from "../../../../types";
 import useCurrency from "@/composable/useCurrency";
 import Image from "next/image";
 import { NextApiResponse } from "next";
+import ProductFavBtn from "@/components/ProductFavBtn";
 
 export default function ProductPage({
   data,
@@ -93,6 +94,7 @@ function PresentationContent({
       <h5 className=" font-semibold text-2xl">
         {useCurrency().formatCurrency(price.value, "fr-FR", price.cur)}
       </h5>
+      <ProductFavBtn sideSizes={50} productId={product.id} />
     </div>
   );
 }
