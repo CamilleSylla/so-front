@@ -2,7 +2,6 @@ import Stripe from "stripe";
 
 // Initialize the Stripe client with your secret key
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
-  // Add any additional configuration options here, if needed
 });
 
 export default async function handler(req, res) {
