@@ -1,4 +1,3 @@
-import DefaultLayout from "@/layout/DefaultLayout";
 import { Html, Head, Main, NextScript } from "next/document";
 
 export default function Document() {
@@ -11,10 +10,8 @@ export default function Document() {
   />
       </Head>
       <body>
-        <DefaultLayout>
           <Main />
           <NextScript />
-        </DefaultLayout>
       </body>
     </Html>
   );

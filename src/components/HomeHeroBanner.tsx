@@ -19,7 +19,7 @@ function Title() {
         <span className="font-bold text-base uppercase">été 2023</span>
         <h1>Un cadeau spécial chez SO'</h1>
         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam dignissim libero non erat eleifend vulputate. Cras ac tempus felis, nec tincidunt justo.</p>
-        <button className="bg-blue-500 text-white">un bouton</button>
+        <button className="default-btn bg-blue-500 text-white">un bouton</button>
       </div>
     </div>
   );
