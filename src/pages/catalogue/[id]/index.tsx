@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Stripe from "stripe";
-import { RadioGroup } from "@headlessui/react";
 import { Prices } from "../../../../types";
 import useCurrency from "@/composable/useCurrency";
 import Image from "next/image";
@@ -30,12 +29,12 @@ function Presentation({
   const [activeImg, setActiveImg] = useState<number>(0);
 
   return (
-    <div className="w-full flex gap-8">
-      <div className="w-1/2 grid grid-cols-2 gap-1">
+    <div className="w-full flex gap-12">
+      <div className="w-[57.5%] grid grid-cols-2 gap-1">
         {product.images.map((image, index) => {
           if (index < 4) {
             return (
-              <div className="w-full h-[650px] relative">
+              <div className="w-full h-[750px] relative">
                 <Image
                   fill
                   className=" object-cover"
@@ -60,23 +59,25 @@ function PresentationContent({
   price: Prices;
 }) {
   return (
-    <div className="flex-1 flex flex-col gap-5 mr-40">
+    <div className="flex-1 space-y-8 mr-40">
       <div>
-        <div className="flex justify-between items-end">
+        <div className="flex justify-between items-end h-fit">
           <h1>{product.name}</h1>
-          <span className=" font-semibold text-2xl">
-            {useCurrency().formatCurrency(price.value, "fr-FR", price.cur)}
-          </span>
+          <div className=" self-stretch flex flex-col justify-between text-right ">
+            <p className=" text-xs">{product.id}</p>
+            <span className=" font-semibold text-2xl">
+              {useCurrency().formatCurrency(price.value, "fr-FR", price.cur)}
+            </span>
+          </div>
         </div>
         <h2 className=" text-2xl font-medium">
           {" "}
           {product.metadata?.category}{" "}
         </h2>
       </div>
-      <p>{"Référence Produit".toUpperCase() + " : " + product.id}</p>
-      <div>
-      <h3 className="font-semibold text-2xl">Description du produit : </h3>
-      <p className=" w-4/5">{product.description}</p>
+      <div className=" space-y-3">
+        <h3 className=" font-medium text-2xl">Description du produit : </h3>
+        <p className=" w-4/5">{product.description}</p>
       </div>
       <ProductFavBtn sideSizes={50} productId={product.id} />
     </div>

@@ -4,7 +4,7 @@
 
 body {
     box-sizing: border-box;
-    @apply font-Poppins w-full bg-gray-200;
+    @apply font-Poppins w-full bg-gray-50;
 }
 
 h1 {
