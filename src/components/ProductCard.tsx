@@ -9,9 +9,11 @@ import ProductFavBtn from "./ProductFavBtn";
 export default function ProductCard({
   product,
   price,
+  height,
 }: {
   product: Stripe.Product;
   price: Prices;
+  height?: string;
 }) {
   const locale = "fr-FR";
   const priceIntl = useCurrency().formatCurrency(
@@ -20,19 +22,27 @@ export default function ProductCard({
     price.cur
   );
   return (
-    <div className="flex h-full  justify-center">
-      <Link href={`/catalogue/${product.id}`}>
-        <article className=" w-[325px] h-full bg-white  flex flex-col gap-2 cursor-pointer">
-          <div className="w-full h-[400px] hover:opacity-70 duration-300 relative">
+    <div className="flex h-full justify-center">
+      <Link href={`/catalogue/${product.id}`} className="w-full">
+        <article className=" w-full h-full bg-white  flex flex-col gap-2 cursor-pointer">
+          <div style={{ height: height }} className="group w-full  relative overflow-hidden">
             <Image
               fill
-              className=" object-cover"
+              className={`object-cover ${!product.images[1] ? " group-hover:scale-125" : " group-hover:opacity-0"} z-10 duration-300`}
               src={product.images[0]}
-              alt={product.images[0]}
+              alt={product.name}
             />
-            <ProductFavBtn productId={product.id} absolute sideSizes={40}/>
+            {product.images[1] && (
+              <Image
+                fill
+                className=" object-cover"
+                src={product.images[1]}
+                alt={product.name}
+              />
+            )}
+            <ProductFavBtn productId={product.id} absolute sideSizes={40} />
           </div>
-          <div>
+          <div className="w-full">
             <h3 className=" text-sm font-light line-clamp-2 text-gray-800">
               {product.name.toUpperCase() + " - " + product.description}
             </h3>

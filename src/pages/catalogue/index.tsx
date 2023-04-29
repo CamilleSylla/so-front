@@ -10,7 +10,7 @@ export default function Catalogue({
 }) {
   const { products, prices } = data;
   return (
-    <div className=" mt-5 py-20 mx-auto max-w-[1366px]">
+    <div className=" w-[90%] mt-5 py-20 mx-auto">
       <div className="">{/* @todo filter here */}</div>
       <ProductList products={products} prices={prices} />
     </div>
@@ -25,7 +25,7 @@ function ProductList({
   prices: Prices[];
 }) {
   return (
-    <div className=" w-full  grid grid-cols-4 gap-y-8">
+    <div className=" w-full grid grid-cols-3 gap-x-5 gap-y-20">
       {products.map((product, index) => {
         const price = prices.find((price: Prices) => price.id === product.id);
         return (
@@ -33,6 +33,7 @@ function ProductList({
             key={product.id}
             product={product}
             price={price as Prices}
+            height={"750px"}
           />
         );
       })}
