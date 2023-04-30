@@ -70,16 +70,32 @@ function PresentationContent({
             </span>
           </div>
         </div>
-        <h2 className=" text-2xl font-medium">
-          {" "}
-          {product.metadata?.category}{" "}
-        </h2>
-      </div>
-      <div className=" space-y-3">
-        <h3 className=" font-medium text-2xl">Description du produit : </h3>
-        <p className=" w-4/5">{product.description}</p>
+        <h2 className=" text-2xl font-medium">{product.metadata?.category}</h2>
       </div>
       <ProductFavBtn sideSizes={50} productId={product.id} />
+
+      <div className=" space-y-3">
+        <h3 className="font-semibold text-xl">Description du produit</h3>
+        <p className=" w-4/5">{product.description}</p>
+      </div>
+      <div className=" space-y-3">
+        <h3 className=" font-semibold text-xl">Informations</h3>
+        <div className="grid grid-cols-2 gap-2">
+          {Object.keys(product.metadata).map((key: string) => {
+            const i18n = {
+              category: "Catégorie",
+              material: "Matériaux",
+              color: "Couleur",
+            };
+            return (
+              <p className=" text-sm bg-gray-100 rounded-md w-full py-3 px-4">
+                {i18n[key]} :{" "}
+                <span className=" font-semibold">{product.metadata[key]}</span>
+              </p>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }
