@@ -9,6 +9,7 @@ module.exports = {
     extend: {
       fontFamily: {
         "Poppins": ['Poppins', 'ui-sans-serif', 'system-ui'],
+        "Handwright" : ['Kristi', 'ui-sans-serif', 'system-ui'],
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
