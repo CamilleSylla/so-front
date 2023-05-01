@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import Icons from "@heroicons/react/24/outline";
-import { Popover } from "@headlessui/react";
+import Icons, { XMarkIcon } from "@heroicons/react/24/outline";
+import { Popover, Transition } from "@headlessui/react";
 import ProductCardHorizontal from "./ProductCardHorizontal";
 import Stripe from "stripe";
 import { useContext, useEffect, useMemo, useRef, useState } from "react";
@@ -61,7 +61,7 @@ function Action() {
 
   return (
     <div className="w-1/3 flex justify-end">
-      <Popover className="relative ">
+      <Popover className="">
         <Popover.Button>
           <div className="w-10 h-10 flex justify-center items-center rounded-full hover:bg-slate-300 duration-300 bg-slate-100 bottom-2 right-2">
             <Icons.HeartIcon
@@ -71,11 +71,39 @@ function Action() {
             />
           </div>
         </Popover.Button>
-        <Popover.Panel className="absolute right-0 mt-5 z-50 max-h-[50vh] rounded-md bg-gray-100 overflow-y-auto  ring-2 ring-gray-300">
-          {products?.map((product) => (
-            <ProductCardHorizontal key={product.product.id} product={product} />
-          ))}
+        <Transition
+        enter="transition-opacity duration-75"
+        enterFrom="opacity-0"
+        enterTo="opacity-100"
+        leave="transition-opacity duration-150"
+        leaveFrom="opacity-100"
+        leaveTo="opacity-0"
+        >
+        <Popover.Overlay className="fixed inset-0 bg-black opacity-40" />
+        <Popover.Panel className=" h-screen  absolute top-0 right-0 bg-gray-50 overflow-y-auto">
+          {({ close }) => (
+            <div className="flex flex-col">
+              <div className="flex justify-between items-center mx-5 py-5">
+                <span className="block text-xl font-medium">Mes favoris</span>
+                <button
+                  onClick={() => close()}
+                  className="group p-1 rounded-full border-2 border-gray-400 hover:border-red-500 duration-300 bg-gray-50"
+                >
+                  <XMarkIcon className=" w-7 h-7 group-hover:stroke-red-500  duration-300" />
+                </button>
+              </div>
+              <div className="flex-grow flex-shrink-0">
+                {products?.map((product) => (
+                  <ProductCardHorizontal
+                    key={product.product.id}
+                    product={product}
+                  />
+                ))}
+              </div>
+            </div>
+          )}
         </Popover.Panel>
+        </Transition>
       </Popover>
     </div>
   );
