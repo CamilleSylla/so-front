@@ -138,11 +138,11 @@ function Links({ transparent }: { transparent: boolean }) {
     },
     {
       label: "About",
-      href: "#",
+      href: "/a-propos",
     },
     {
       label: "Contact",
-      href: "#",
+      href: "mailto:carmelosylla@gmail.com",
     },
   ];
   return (
