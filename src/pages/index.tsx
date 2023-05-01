@@ -1,21 +1,32 @@
 import Image from "next/image";
 import { Inter } from "next/font/google";
-import FeaturedProduct from "@/components/FeaturedProduct";
 import {
   ArrowUpRightIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "@heroicons/react/24/outline";
 import { useEffect, useRef, useState } from "react";
+import Stripe from "stripe";
+import { Prices } from "../../types";
+import { NextApiResponse } from "next";
+import ProductListRow from "@/components/ProductListRow";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function Home() {
+export default function Home({
+  data,
+}: {
+  data: { products: Stripe.Product[]; prices: Prices[]; next_page: string };
+}) {
+  console.log(data);
+  
   return (
     <div>
       <HomeHeroBanner />
       <Slogan />
-      {/* <FeaturedProduct /> */}
+      <div>
+        <ProductListRow title="Derniers produits" data={data} />
+      </div>
     </div>
   );
 }
@@ -38,8 +49,8 @@ function Slogan() {
         style={{ fontSize: `${letterWidth}px` }}
         className="absolute z-10 w-full top-0 -translate-y-1/2 flex justify-between uppercase font-semibold text-orange-300"
       >
-        {titleArray.map((letter) => (
-          <span>{letter}</span>
+        {titleArray.map((letter, index) => (
+          <span key={`${letter}-${index}` }>{letter}</span>
         ))}
       </h1>
       <figure className="mx-auto w-fit relative">
@@ -152,4 +163,21 @@ function Carousel() {
       ))}
     </div>
   );
+}
+
+export async function getServerSideProps({ res }: { res: NextApiResponse }) {
+  res.setHeader(
+    "Cache-Control",
+    "public, s-maxage=1800, stale-while-revalidate=3540"
+  );
+
+  const data = await fetch(
+    `${process.env.BASE_FETCH_URL}/api/stripe/products/list/home`
+  );
+
+  return {
+    props: {
+      data: await data.json(),
+    },
+  };
 }
