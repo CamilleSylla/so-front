@@ -51,7 +51,7 @@ export default async function handler(req, res) {
   res.status(200).json({ products: data, prices, next_page, has_more: more });
 }
 
-async function getPrices(data: Stripe.Product[]) {
+export async function getPrices(data: Stripe.Product[]) {
   try {
     return await Promise.all(
       data.map(async (product) => {
