@@ -1,9 +1,28 @@
 import PageSlogan from "@/components/PageSlogan";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/dist/ScrollTrigger";
 import Image from "next/image";
+import { useEffect, useRef } from "react";
 
 export default function About() {
+
+    const container = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        gsap.utils.toArray(".about-paralax").forEach((image) => {
+            gsap.to(image, {
+                scrollTrigger: {
+                    trigger: container.current,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: 4,
+                  },
+                  y: 200
+            })
+        })
+    }, [])
   return (
-    <div className=" py-20 w-full mx-auto">
+    <div className=" pt-20 w-full mx-auto">
       <HeroBanner />
       <PageSlogan value="Rechercher LA pièce qui vous inspirera" />
       <Content />
@@ -12,14 +31,34 @@ export default function About() {
 }
 
 function HeroBanner() {
+
+    const container = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+            gsap.to(".hero-paralax", {
+                scrollTrigger: {
+                    trigger: container.current,
+                    start: "top bottom",
+                    end: "bottom top",
+                    scrub: 4,
+                  },
+                  y: 100
+            })
+    }, [])
   return (
     <div
+    ref={container}
       className="w-[90%] mx-auto h-[85vh] relative"
-      style={{
-        backgroundSize: "cover",
-        backgroundImage: `url(https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80)`,
-      }}
     >
+      <div className="w-full h-full absolute top-0 left-0 overflow-hidden">
+        <Image
+        fill
+        src="https://images.unsplash.com/photo-1500917293891-ef795e70e1f6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+        alt="sosaintquentin-logo"
+        className="object-cover hero-paralax scale-125"
+        />
+
+      </div>
       <div className="w-full h-full bg-black opacity-10 absolute"></div>
       <h1 className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-11/12 flex justify-between items-center  text-white">
         <span className="block font-Handwright text-9xl first-letter:uppercase">
@@ -42,8 +81,10 @@ function HeroBanner() {
 }
 
 function Content() {
+    
+    
   return (
-    <>
+    <div>
     <div className="w-full  h-32 bg-gray-100"/>
     <section className="w-full relativebg-gray-800 bg-gray-800 grid grid-cols-5 grid-rows-[7]">
       <div
@@ -54,7 +95,7 @@ function Content() {
           fill
           src="https://images.unsplash.com/photo-1585728748176-455ac5eed962?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1974&q=80"
           alt="sosaintquentin-logo"
-          className="object-cover scale-125"
+          className="about-paralax object-cover scale-150"
         />
       </div>
       <div
@@ -77,7 +118,7 @@ function Content() {
           fill
           src="https://images.unsplash.com/photo-1638443883232-18ab7f985541?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
           alt="sosaintquentin-logo"
-          className="object-cover scale-125"
+          className="about-paralax object-cover scale-150"
         />
       </div>
       <div
@@ -125,18 +166,18 @@ function Content() {
           fill
           src="https://images.unsplash.com/photo-1592621385612-4d7129426394?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80"
           alt="sosaintquentin-logo"
-          className="object-cover scale-125"
+          className="about-paralax object-cover scale-150"
         />
       </div>
     </section>
-    </>
+    </div>
   );
 }
 
 function SocialMedia() {
     return (
         <div>
-            
+
         </div>
     )
 }
