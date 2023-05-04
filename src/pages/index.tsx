@@ -5,28 +5,72 @@ import {
   ChevronLeftIcon,
   ChevronRightIcon,
 } from "@heroicons/react/24/outline";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import Stripe from "stripe";
 import { Prices } from "../../types";
 import { NextApiResponse } from "next";
 import ProductListRow from "@/components/ProductListRow";
+import { useRouter } from "next/router";
+import { FilterContext } from "@/context/ProductsFiltersContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home({
   data,
+  categoryProducts,
+  categoryProductsName,
 }: {
   data: { products: Stripe.Product[]; prices: Prices[]; next_page: string };
+  categoryProducts: {
+    products: Stripe.Product[];
+    prices: Prices[];
+    next_page: string;
+  };
+  categoryProductsName: string;
 }) {
-  console.log(data);
-  
+const router = useRouter();
+const [_, setFiler] = useContext(FilterContext)
+  const handleCategoryClick = (value : "Pull" | "T-Shirt") => {
+    setFiler({ category: [value as string], material: [], color: [], sort: "" });
+    router.push("/catalogue");
+  }
+
   return (
     <div>
       <HomeHeroBanner />
       <Slogan />
-      <div>
         <ProductListRow title="Derniers produits" data={data} />
-      </div>
+        <section className="flex justify-center py-32 px-20 w-full gap-5 bg-gray-100">
+          <div
+            style={{
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundImage: `url(https://images.unsplash.com/photo-1495494527480-87e8644f0d99?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=683&q=80)`,
+            }}
+            className="flex-1 h-screen cursor-pointer"
+            onClick={() => handleCategoryClick("Pull")}
+          >
+            <div className="w-full h-full bg-[rgba(0,0,0,0.3)] flex flex-col justify-center items-center text-white space-y-10 text-center">
+              <h3 className="text-6xl font-semibold">Pull SO'</h3>
+              <p className="text-xl"><span className="block ">Ou le porter ?</span><span className="block">Partout</span></p>
+            </div>
+          </div>
+          <div
+            style={{
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundImage: `url(https://images.unsplash.com/photo-1495494527480-87e8644f0d99?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=683&q=80)`,
+            }}
+            className="flex-1 h-screen cursor-pointer"
+            onClick={() => handleCategoryClick("Pull")}
+          >
+            <div className="w-full h-full bg-[rgba(0,0,0,0.3)] flex flex-col justify-center items-center text-white space-y-10 text-center">
+              <h3 className="text-6xl font-semibold">Pull SO'</h3>
+              <p className="text-xl"><span className="block ">Ou le porter ?</span><span className="block">Partout</span></p>
+            </div>
+          </div>
+        </section>
+        <ProductListRow title={categoryProductsName} data={categoryProducts} />
     </div>
   );
 }
@@ -50,7 +94,7 @@ function Slogan() {
         className="absolute z-10 w-full top-0 -translate-y-1/2 flex justify-between uppercase font-semibold text-orange-300"
       >
         {titleArray.map((letter, index) => (
-          <span key={`${letter}-${index}` }>{letter}</span>
+          <span key={`${letter}-${index}`}>{letter}</span>
         ))}
       </h1>
       <figure className="mx-auto w-fit relative">
@@ -171,13 +215,26 @@ export async function getServerSideProps({ res }: { res: NextApiResponse }) {
     "public, s-maxage=1800, stale-while-revalidate=3540"
   );
 
-  const data = await fetch(
+  const category = ["Robe"];
+
+  const latestProducts = await fetch(
     `${process.env.BASE_FETCH_URL}/api/stripe/products/list/home`
+  );
+
+  const categoryProducts = await fetch(
+    `${process.env.BASE_FETCH_URL}/api/stripe/products/list`,
+    {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ category }),
+    }
   );
 
   return {
     props: {
-      data: await data.json(),
+      data: await latestProducts.json(),
+      categoryProducts: await categoryProducts.json(),
+      categoryProductsName: category[0],
     },
   };
 }
