@@ -12,6 +12,7 @@ import { NextApiResponse } from "next";
 import ProductListRow from "@/components/ProductListRow";
 import { useRouter } from "next/router";
 import { FilterContext } from "@/context/ProductsFiltersContext";
+import MapSection from "@/components/MapSection";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -71,6 +72,11 @@ const [_, setFiler] = useContext(FilterContext)
           </div>
         </section>
         <ProductListRow title={categoryProductsName} data={categoryProducts} />
+        <MapSection/>
+        <div className="h-screen">
+        {process.env.NEXT_PUBLIC_MAPBOX_TOKEN} 
+
+        </div>
     </div>
   );
 }
