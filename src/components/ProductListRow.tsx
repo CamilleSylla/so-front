@@ -34,7 +34,7 @@ export default function ProductListRow({
 
   const handleNext = () => {
     if (divs) {
-          if (scrollTo + 2 > 4) {
+          if (scrollTo + 2 > Math.round(products.length / 2)) {
             setScrollTo(0);
           } else {
             setScrollTo(scrollTo + 1);
@@ -55,7 +55,7 @@ export default function ProductListRow({
       </div>
       <div
         ref={itemsContainerRef}
-        className=" flex-grow space-x-5 relative flex overflow-hidden"
+        className={`flex-grow space-x-5 relative flex overflow-hidden ${products.length < 6 ? "justify-end" : "justify-start"}`}
       >
         
         {products.map((product, index) => {
